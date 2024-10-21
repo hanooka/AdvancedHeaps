@@ -94,9 +94,24 @@ class BinomialHeap(MergeableHeaps):
         prev_x = None
         x = self.head
         next_x = x.sibling
+        while next_x != None:
+            if (x.degree != next_x.degree) or (next_x.sibling != None and next_x.sibling.degree == x.degree):
+                prev_x = x
+                x = next_x
+            elif x.key <= next_x.key:
+                x.sibling = next_x.sibling
+                self._binomial_link(next_x, x)
+            elif prev_x is None:
+                self.head = next_x
+            else:
+                prev_x.sibling = next_x
+            self._binomial_link(x, next_x)
+            x = next_x
 
-    def _binomial_link(self, y: BinomialNode, z: BinomialNode):
+    @staticmethod
+    def _binomial_link(y: BinomialNode, z: BinomialNode):
         """ y and z are 2 nodes which represent a binomial tree of the same degree
+        merging both binomial trees into one, so that, z is to become y parent.
         Time complexity: O(1)
         """
         y.parent = z
