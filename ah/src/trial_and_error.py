@@ -98,15 +98,19 @@ class BinomialHeap(MergeableHeaps):
             if (x.degree != next_x.degree) or (next_x.sibling != None and next_x.sibling.degree == x.degree):
                 prev_x = x
                 x = next_x
-            elif x.key <= next_x.key:
-                x.sibling = next_x.sibling
-                self._binomial_link(next_x, x)
-            elif prev_x is None:
-                self.head = next_x
             else:
-                prev_x.sibling = next_x
-            self._binomial_link(x, next_x)
-            x = next_x
+                if x.key <= next_x.key:
+                    x.sibling = next_x.sibling
+                    self._binomial_link(next_x, x)
+                else:
+                    if prev_x is None:
+                        self.head = next_x
+                    else:
+                        prev_x.sibling = next_x
+                    self._binomial_link(x, next_x)
+                    x = next_x
+            next_x = x.sibling
+        return self
 
     @staticmethod
     def _binomial_link(y: BinomialNode, z: BinomialNode):
