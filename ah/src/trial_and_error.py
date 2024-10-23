@@ -6,8 +6,6 @@ from typing import Optional
 """
 Thinking about going object oriented with the heap
 """
-
-
 class MergeableHeaps(ABC):
     @abstractmethod
     def make_heap(self):
